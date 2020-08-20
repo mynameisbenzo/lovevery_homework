@@ -4,8 +4,8 @@ class OrdersController < ApplicationController
   end
 
   def create
-    child = Child.find_or_create_by(child_params)
-    @order = Order.create(order_params.merge(child: child, user_facing_id: SecureRandom.uuid[0..7]))
+    child = (order_params["gift"]) ? Child.new(child_params) : Child.find_or_create_by(child_params)
+    @order = Order.create_with_params(order_params.merge(child: child, user_facing_id: SecureRandom.uuid[0..7]))
     if @order.valid?
       Purchaser.new.purchase(@order, credit_card_params)
       redirect_to order_path(@order)
@@ -21,7 +21,7 @@ class OrdersController < ApplicationController
 private
 
   def order_params
-    params.require(:order).permit(:shipping_name, :product_id, :zipcode, :address).merge(paid: false)
+    params.require(:order).permit(:shipping_name, :product_id, :zipcode, :address, :gift, :gift_message, :billing_address, :billing_zipcode).merge(paid: false)
   end
 
   def child_params

@@ -29,6 +29,10 @@
         Use format YYYY-MM-DD
         </small>
     </div>
+    <div class="form-row d-none" id="gift_message">
+      <%= form.label :gift_message %>
+      <%= form.text_area :gift_message, class: "form-control" %>
+    </div>
     <div class="form-row" id="shipping">
       <%= form.hidden_field :product_id %>
       <div class="form-group col-md-8">
@@ -76,20 +80,27 @@
   <% end %>
 </section>
 <script>
-  document.getElementById('order_gift').addEventListener('click', (event) => {
-    var gift = event.target.checked;
-    if(gift){
+  function updateForm(condition){
+    if(condition){
       document.getElementById("order_shipping_name").labels[0].innerHTML = "Parent's Name";
       document.getElementById("order_child_full_name").labels[0].innerHTML = "Child's Name";
       document.getElementById("order_child_birthdate").labels[0].innerHTML = "Child's Birthdate (or expected date)";
       document.getElementById("billing").classList.remove("d-none");
       document.getElementById("shipping").classList.add("d-none");
+      document.getElementById("gift_message").classList.remove("d-none");
     }else{
       document.getElementById("order_shipping_name").labels[0].innerHTML = "Your Name";
       document.getElementById("order_child_full_name").labels[0].innerHTML = "Your Child's Name";
-      document.getElementById("order_child_birthdate").labels[0].innerHTML = "Child's Birthdate (or expected date)";
+      document.getElementById("order_child_birthdate").labels[0].innerHTML = "Your Child's Birthdate (or expected date)";
       document.getElementById("billing").classList.add("d-none");
       document.getElementById("shipping").classList.remove("d-none");
+      document.getElementById("gift_message").classList.add("d-none");
     }
+  }
+  document.addEventListener("DOMContentLoaded", function(){
+    updateForm(document.getElementById('order_gift').checked);
+  }); 
+  document.getElementById('order_gift').addEventListener('click', (event) => {
+    updateForm(event.target.checked);
   });
 </script>
