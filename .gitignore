@@ -22,6 +22,9 @@
 !/storage/.keep
 
 /public/assets
+/public/.DS_Store
+/public/coverage/*
+
 .byebug_history
 
 # Ignore master key for decrypting credentials and more.

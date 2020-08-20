@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
   end
 
   def create
-    child = (order_params["gift"]) ? Child.new(child_params) : Child.find_or_create_by(child_params)
+    child = Child.find_or_create_with_params(child_params, order_params["gift"] == "1")
     @order = Order.create_with_params(order_params.merge(child: child, user_facing_id: SecureRandom.uuid[0..7]))
     if @order.valid?
       Purchaser.new.purchase(@order, credit_card_params)

@@ -27,6 +27,7 @@ group :test do
   gem 'capybara', '>= 2.15'
   #gem 'selenium-webdriver'
   gem 'webdrivers'
+  gem 'simplecov'
 end
 
 gem "rspec-rails", groups: [ :development, :test ]
